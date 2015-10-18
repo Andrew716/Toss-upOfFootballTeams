@@ -5,18 +5,30 @@ import java.util.List;
 import java.util.Random;
 import java.io.IOException;
 import java.lang.IllegalArgumentException;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.logging.Logger;
+import java.lang.NullPointerException;
 
 /**
  * Created by Andrii on 10/15/2015.
  */
 public class WorkWithFile {
 
-    public static final String regex = "^([a-zA-Z]{2,40})|(([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40})|([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}$";
+    private final static String regex = "^([a-zA-Z]{2,40})|(([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40})|([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}$";
+    private final static Logger LOGGER = Logger.getLogger(WorkWithFile.class.getName());
 
     public static List<String> readFromFile(String pathFile){
+        try {
+            if (pathFile == null){
+                throw new NullPointerException();
+            }
+        }catch (NullPointerException e){
+            LOGGER.warning("NullPointerException has been just generated!!! Check out your input data!!!");
+        }
         List<String> teamsList = new ArrayList<String>();
+        LOGGER.setLevel(Level.INFO);
         int counter = 0;
         try {
             String string;
@@ -32,14 +44,14 @@ public class WorkWithFile {
                 bufferedReader.close();
             }
         } catch (IOException e){
-            System.out.println("We are really sorry, but we couldn't do a toss-up :( Your file has not been found!\n Please, check out path to your file or extension of file, it should be .txt or .text.");
+            LOGGER.warning("We are really sorry, but we couldn't do a toss-up :( Your file has not been found!\n Please, check out path to your file or extension of file, it should be .txt or .text.");
         }
         try {
             if (counter %2 == 1){
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e){
-            System.out.println("We are really sorry, but we couldn't do a toss-up :(\n You should have even number of teams");
+            LOGGER.warning("We are really sorry, but we couldn't do a toss-up :(\n You should have even number of teams");
         }
         return teamsList;
     }
@@ -56,10 +68,16 @@ public class WorkWithFile {
     }
 
     public static List<String> doSortiton(List<String> teamList){
+        try {
+            if (teamList == null){
+                throw new NullPointerException();
+            }
+        }catch (NullPointerException e){
+            LOGGER.warning("NullPointerException has been just generated!!! Check out you input data!!!");
+        }
         List<String> sortedTeamList = new ArrayList<String>();
         Random random = new Random();
         int numberForSolvingWhoWillPlayFirstMatchAtHome = 1000;
-        int landmarkNumber = 500;
         while (!teamList.isEmpty()){
             int firstGameAtHome = random.nextInt(teamList.size()-1);
             int firstGameAtGuests = random.nextInt(teamList.size()-1);
@@ -75,7 +93,7 @@ public class WorkWithFile {
             }
             if (teamList.size() == 2){
                 int temp = random.nextInt(numberForSolvingWhoWillPlayFirstMatchAtHome);
-                if (temp >= landmarkNumber){
+                if (temp >= numberForSolvingWhoWillPlayFirstMatchAtHome/2){
                     sortedTeamList.add(teamList.get(1) + "  -  " + teamList.get(0));
                     teamList.remove(1);
                     teamList.remove(0);
@@ -90,6 +108,13 @@ public class WorkWithFile {
     }
 
     public static void printSortition(List<String> sortedTeamList){
+        try {
+            if (sortedTeamList == null){
+                throw new NullPointerException();
+            }
+        }catch (NullPointerException e){
+            LOGGER.warning("NullPointerException has been just generated!!! Check out your input data");
+        }
         for (int i = 0; i < sortedTeamList.size(); i++){
             System.out.println(sortedTeamList.get(i));
         }
