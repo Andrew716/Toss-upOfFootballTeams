@@ -20,7 +20,7 @@ public class TestClass {
     protected final String pathToNumericFile = "\\src\\main\\java\\fileConsistsOfNumeric.txt";
     protected final String pathToDocFile = "\\src\\main\\java\\sortition.doc";
     protected final String pathToExeFile = "\\src\\main\\java\\asdfasdf.exe";
-    protected final String pathToGoodFile = "C:\\Users\\Andrii\\IdeaProjects\\GIT\\Toss-upOfFootballTeams\\src\\main\\java\\GoodFile.txt";
+    protected final String pathToGoodFile = "C:\\Users\\Andrii\\IdeaProjects\\GIT\\Toss-upOfFootballTeams\\src\\main\\java\\files\\GoodFile.txt";
 
     @Test
     public void testReadFromGoodFile(){
