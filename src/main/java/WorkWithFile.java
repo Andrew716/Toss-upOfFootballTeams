@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
-import java.lang.NullPointerException;
 
 /**
  * Created by Andrii on 10/15/2015.
@@ -20,13 +19,6 @@ public class WorkWithFile {
     private final static Logger LOGGER = Logger.getLogger(WorkWithFile.class.getName());
 
     public static List<String> readFromFile(String pathFile){
-        try {
-            if (pathFile == null){
-                throw new NullPointerException();
-            }
-        }catch (NullPointerException e){
-            LOGGER.warning("NullPointerException has been just generated!!! Check out your input data!!!");
-        }
         List<String> teamsList = new ArrayList<String>();
         LOGGER.setLevel(Level.INFO);
         int counter = 0;
@@ -56,7 +48,7 @@ public class WorkWithFile {
         return teamsList;
     }
 
-    private static boolean isItCountry(String str){
+    public static boolean isItCountry(String str){
         boolean flag = false;
         String regexForCountry = regex;
         Pattern patternForOneWord = Pattern.compile(regexForCountry);
@@ -68,13 +60,6 @@ public class WorkWithFile {
     }
 
     public static List<String> doSortiton(List<String> teamList){
-        try {
-            if (teamList == null){
-                throw new NullPointerException();
-            }
-        }catch (NullPointerException e){
-            LOGGER.warning("NullPointerException has been just generated!!! Check out you input data!!!");
-        }
         List<String> sortedTeamList = new ArrayList<String>();
         Random random = new Random();
         int numberForSolvingWhoWillPlayFirstMatchAtHome = 1000;
@@ -108,13 +93,6 @@ public class WorkWithFile {
     }
 
     public static void printSortition(List<String> sortedTeamList){
-        try {
-            if (sortedTeamList == null){
-                throw new NullPointerException();
-            }
-        }catch (NullPointerException e){
-            LOGGER.warning("NullPointerException has been just generated!!! Check out your input data");
-        }
         for (int i = 0; i < sortedTeamList.size(); i++){
             System.out.println(sortedTeamList.get(i));
         }
