@@ -2,7 +2,6 @@ Ukraine
 Poland
 Belarus
 USA
-Ukraine
 Poland
 Belarus
 USA
@@ -12,6 +11,9 @@ Italy
 Spain
 Brazil
 Japan
+Mexico
+Ukraine
+Egypt
 
 
 Canada
@@ -21,5 +23,5 @@ Ukraine123 Ukraine
 Trinidado and Tobago
 Kod Divuar
 Chili
-Iran
+
 Belgium

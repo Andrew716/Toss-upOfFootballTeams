@@ -1,47 +1,44 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 import java.lang.IllegalArgumentException;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
 
+
 /**
  * Created by Andrii on 10/15/2015.
  */
-public class WorkWithFile {
 
-    private final static String regex = "^([a-zA-Z]{2,40})|(([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40})|([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}$";
-    private final static Logger LOGGER = Logger.getLogger(WorkWithFile.class.getName());
+public class SortitionClass {
 
-    public static List<String> readFromFile(String pathFile){
-        List<String> teamsList = new ArrayList<String>();
-        LOGGER.setLevel(Level.INFO);
+    private final static String regexForCountry = "^([a-zA-Z]{2,40})|(([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40})|([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}(\\s)([a-zA-Z]){2,40}$";
+    private final static Logger LOGGER = Logger.getLogger(SortitionClass.class.getName());
+
+    public static Set<String> readFromFile(String pathFile){
+        Set<String> teamsList = new HashSet<String>();
         int counter = 0;
         try {
+            File file = new File(pathFile);
+            if (file.exists() == false){
+                throw new FileNotFoundException();
+            }
             String string;
             BufferedReader bufferedReader = new BufferedReader(new FileReader(pathFile));
-            try {
                 while ((string = bufferedReader.readLine()) != null){
                     if ((!string.isEmpty()) && (isItCountry(string))){
                         teamsList.add(string);
                         counter++;
                     }
                 }
-            } finally {
                 bufferedReader.close();
-            }
-        } catch (IOException e){
-            LOGGER.warning("We are really sorry, but we couldn't do a toss-up :( Your file has not been found!\n Please, check out path to your file or extension of file, it should be .txt or .text.");
-        }
-        try {
             if (counter %2 == 1){
                 throw new IllegalArgumentException();
             }
+        }catch (FileNotFoundException e){
+            LOGGER.warning("File not found! Set new directory");
+        }catch (IOException e){
+            LOGGER.warning("We are really sorry, but we couldn't do a toss-up :( Your file has not been found!\n Please, check out path to your file or extension of file, it should be .txt or .text.");
         } catch (IllegalArgumentException e){
             LOGGER.warning("We are really sorry, but we couldn't do a toss-up :(\n You should have even number of teams");
         }
@@ -50,7 +47,6 @@ public class WorkWithFile {
 
     public static boolean isItCountry(String str){
         boolean flag = false;
-        String regexForCountry = regex;
         Pattern patternForOneWord = Pattern.compile(regexForCountry);
         Matcher matcherOneWord = patternForOneWord.matcher(str);
         if (matcherOneWord.matches()){
@@ -59,8 +55,13 @@ public class WorkWithFile {
         return flag;
     }
 
-    public static List<String> doSortiton(List<String> teamList){
-        List<String> sortedTeamList = new ArrayList<String>();
+    public static Set<String> doSortiton(Set<String> setTeamList){
+        Set<String> sortedTeamList = new HashSet<String>();
+        List<String> teamList = new ArrayList<String>();
+        Iterator<String> iterator = setTeamList.iterator();
+        while (iterator.hasNext()){
+            teamList.add(iterator.next());
+        }
         Random random = new Random();
         int numberForSolvingWhoWillPlayFirstMatchAtHome = 1000;
         while (!teamList.isEmpty()){
@@ -90,11 +91,5 @@ public class WorkWithFile {
             }
         }
         return sortedTeamList;
-    }
-
-    public static void printSortition(List<String> sortedTeamList){
-        for (int i = 0; i < sortedTeamList.size(); i++){
-            System.out.println(sortedTeamList.get(i));
-        }
     }
 }
