@@ -36,7 +36,7 @@ public class SortitionClass {
                 throw new IllegalArgumentException();
             }
         }catch (FileNotFoundException e){
-            LOGGER.warning("File not found! Set new directory");
+            LOGGER.warning("File not found! Set new direction!");
         }catch (IOException e){
             LOGGER.warning("We are really sorry, but we couldn't do a toss-up :( Your file has not been found!\n Please, check out path to your file or extension of file, it should be .txt or .text.");
         } catch (IllegalArgumentException e){

@@ -1,12 +1,15 @@
 import junit.framework.Assert;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.io.*;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashSet;
-
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.io.File;
 import java.util.regex.Pattern;
 
 /**
@@ -14,18 +17,30 @@ import java.util.regex.Pattern;
  */
 public class TestClass {
 
-    protected final String pathToEmptyFile = "\\src\\main\\java\\emptyFile.txt";
-    protected final String pathToOddNumStrFile = "\\src\\main\\java\\FileWithOddNumberOfStrings.txt";
-    protected final String pathToSpaceFile = "\\src\\main\\java\\fileConsistsOfSpace";
-    protected final String pathToNumericFile = "\\src\\main\\java\\fileConsistsOfNumeric.txt";
-    protected final String pathToDocFile = "\\src\\main\\java\\sortition.doc";
-    protected final String pathToExeFile = "\\src\\main\\java\\asdfasdf.exe";
-    protected final String pathToGoodFile = "C:\\Users\\Andrii\\IdeaProjects\\GIT\\Toss-upOfFootballTeams\\src\\main\\java\\files\\GoodFile.txt";
+    protected String pathToEmptyFile;
+    protected String pathToOddNumStrFile;
+    protected String pathToSpaceFile;
+    protected String pathToNumericFile;
+    protected String pathToDocFile;
+    protected String pathToExeFile;
+    protected  String pathToGoodFile;
+
+    @Before
+    public void setUp(){
+        this.pathToOddNumStrFile = new File("src\\main\\resources\\files\\FileWithOddNumb.txt").getAbsolutePath();
+        this.pathToSpaceFile = new File("src\\main\\resources\\files\\fileConsistsOfSpace.txt").getAbsolutePath();
+        this.pathToNumericFile = new File("src\\main\\resources\\files\\fileConsistsOfNumeric.txt").getAbsolutePath();
+        this.pathToDocFile = new File("src\\main\\resources\\files\\docFile.doc").getAbsolutePath();
+        this.pathToExeFile = new File("src\\main\\resources\\files\\exeFile.exe").getAbsolutePath();
+        this.pathToEmptyFile = new File("src\\main\\resources\\files\\emptyFile.txt").getAbsolutePath();
+        this.pathToGoodFile = new File("src\\main\\resources\\files\\GoodFile.txt").getAbsolutePath();
+    }
 
     @Test
     public void testReadFromGoodFile(){
         Set<String> expectedList = new HashSet<String>();
         Set<String> realList = SortitionClass.readFromFile(pathToGoodFile);
+        System.out.println(pathToGoodFile);
         try {
             int counter = 0;
             String string;
@@ -56,24 +71,16 @@ public class TestClass {
         throw new NullPointerException();
     }
 
-
-    //TODO
     @Test(expected = FileNotFoundException.class)
-    public void testReadFromFileDocFile(){
-         SortitionClass.readFromFile(pathToDocFile);
-       //throw new FileNotFoundException();
+    public void testReadFromFileDocFile() throws FileNotFoundException{
+        SortitionClass.readFromFile(pathToDocFile);
+        throw new FileNotFoundException();
     }
 
-
-    //TODO
     @Test(expected = FileNotFoundException.class)
-    public void testReadFromFileExeFile(){
+    public void testReadFromFileExeFile() throws FileNotFoundException{
         SortitionClass.readFromFile(pathToExeFile);
-        try {
-            throw new FileNotFoundException();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+       throw new FileNotFoundException();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -110,10 +117,15 @@ public class TestClass {
     }
 
     @Test()
-    public void testIsCountry(){
+    public void testIsCountry() {
         boolean flagCountry = SortitionClass.isItCountry("Ukraine");
         Assert.assertTrue(flagCountry);
         flagCountry = SortitionClass.isItCountry("eqrwe12312");
         Assert.assertFalse(flagCountry);
+    }
+
+    @After
+    public void tearDown(){
+
     }
 }
